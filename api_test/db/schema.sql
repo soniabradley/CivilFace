@@ -1,6 +1,0 @@
-CREATE DATABASE IF NOT EXISTS image_db;
-USE image_db;
-
-CREATE TABLE IF NOT EXISTS image(
-    
-)
