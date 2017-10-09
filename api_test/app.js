@@ -52,7 +52,6 @@ function gender(data){
   switch(gender){
     case data.gender.femaleConfidence:
       gender = "female";
-      return "Female";
       break;
     case data.gender.maleConfidence:
       gender = "Male";
