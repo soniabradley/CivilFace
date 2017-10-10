@@ -3,6 +3,9 @@ var express = require("express");
 var exphbs = require("express-handlebars");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
+var formidable = require('formidable');
+var fs = require('fs');
+var path = require("path");
 
 // Create an instance of the express app.
 var app = express();
@@ -122,7 +125,35 @@ app.post("/", function(req, res){
 })
 
 //listen to PORT;
+app.post('/upload', function(req, res){
+  // create an incoming form object
+  var form = new formidable.IncomingForm();
+  //  allow the user to upload multiple files in a single request
+  form.multiples = true;
+  form.keepExtensions = true;
+  // store all uploads in the /uploads
+  form.uploadDir = path.join(__dirname, './uploads');
 
+  
+  form.on('file', function(field, file) {
+    // console.log(file.name);
+    // console.log("file.path: " + file.path);
+      fs.rename(file.path, path.join(form.uploadDir, file.name));  // rename file to original name
+  });
+
+  // log any errors that occur
+  form.on('error', function(err) {
+    console.log('An error has occured: \n' + err);
+  });
+
+  // once all the files have been uploaded, send a response to the client
+  form.on('end', function() {
+    res.end('Upload successful');
+  });
+  // parse the incoming request containing the form data
+  form.parse(req);
+  res.redirect("/");
+});
 app.listen(PORT, function(){
   console.log("Start listen on PORT: " + PORT);
 })
