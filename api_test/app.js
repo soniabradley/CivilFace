@@ -5,6 +5,7 @@ var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 var formidable = require('formidable');
 var fs = require('fs');
+var base64Img = require('base64-img');
 var path = require("path");
 
 // Create an instance of the express app.
@@ -24,6 +25,17 @@ app.set("view engine", "handlebars");
 var request = require('request');
 
 //function to encode image to base64
+fs.readdir("./image", function(err, files){
+  var getDir = "./image/" + files[0];
+  if(err) throw err;
+  console.log(getDir);
+  base64Img.base64(getDir, function(err, data){
+      fs.appendFile('base64.txt', data, (err) => {
+          if (err) throw err;
+          console.log('Your base64 img data was appended to file!');
+        });
+  });
+})
 
 //function to identify ethnic
 function ethnic(data) {
