@@ -7,7 +7,6 @@ var formidable = require('formidable');
 var fs = require('fs');
 var base64Img = require('base64-img');
 var path = require("path");
-var request = require('request');
 
 // Create an instance of the express app.
 var app = express();
@@ -23,20 +22,20 @@ var PORT = process.env.PORT || 3002;
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-
-// function to encode image to base64
+var request = require('request');
+//function to encode image to base64
 fs.readdir("./image", function(err, files){
   var getDir = "./image/" + files[0];
   if(err) throw err;
   console.log(getDir);
   base64Img.base64(getDir, function(err, data){
-      fs.writeFile('base64.txt', data, (err) => {
+      fs.appendFile('base64.txt', data, (err) => {
           if (err) throw err;
           console.log('Your base64 img data was appended to file!');
+          
         });
   });
 })
-
 //function to identify ethnic
 function ethnic(data) {
   var ethnic = Math.max(data.asian, data.hispanic, data.other, data.black, data.white);
@@ -66,7 +65,7 @@ function gender(data){
   var gender = Math.max(data.gender.femaleConfidence, data.gender.maleConfidence);
   switch(gender){
     case data.gender.femaleConfidence:
-      gender = "Female";
+      gender = "female";
       break;
     case data.gender.maleConfidence:
       gender = "Male";
@@ -105,68 +104,7 @@ app.get("/", function(req,res){
   });
 })
 
-app.post("/", function(req, res){
-  var imgURL = req.body.imgURL;
-  console.log(imgURL);
-  request({
-    method: 'POST',
-    url: 'https://api.kairos.com/detect',
-    headers: {
-      'Content-Type': 'application/json',
-      'app_id': '7167ee1b',
-      'app_key': '35e70a4c3036a339cc3954f24255a4e5'
-    },
-    body: '{  "image": "' + imgURL +'",  "selector": "ROLL"}'    
-    
-  }, function (error, response, body) {
-      var responseData = JSON.parse(body);
-      responseData = responseData.images[0].faces[0].attributes;
-      console.log('Response:', responseData);
-      
-      //build data object to use with handlebars
-      var result = {};
-      result.ethnic = ethnic(responseData);
-      result.age = responseData.age;
-      result.glasses = responseData.glasses;
-      result.gender = gender(responseData);
-      result.imageURL = imgURL;      
-
-      //send data to handlebarsjs
-      res.render("index", result);      
-  });
-})
-
-app.post('/upload', function(req, res){
-  // create an incoming form object
-  var form = new formidable.IncomingForm();
-  //  allow the user to upload multiple files in a single request
-  form.multiples = true;
-  form.keepExtensions = true;
-  // store all uploads in the /uploads
-  form.uploadDir = path.join(__dirname, './uploads');
-
-  form.on('file', function(field, file) {
-    // console.log(file.name);
-    // console.log("file.path: " + file.path);
-      fs.rename(file.path, path.join(form.uploadDir, file.name));  // rename file to original name
-  });
-
-  // log any errors that occur
-  form.on('error', function(err) {
-    console.log('An error has occured: \n' + err);
-  });
-
-  // once all the files have been uploaded, send a response to the client
-  form.on('end', function() {
-    res.end('Upload successful');
-  });
-  // parse the incoming request containing the form data
-  form.parse(req);
-  res.send("Upload successful");
-});
-
-
-//listen;
+//listen to PORT;
 app.listen(PORT, function(){
   console.log("Start listen on PORT: " + PORT);
 })
