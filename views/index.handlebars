@@ -1,0 +1,42 @@
+ <div class="container">
+    <div class="jumbotron text-center"><h2>Test Kairos API - Face Detect, Analysis </h2></div>
+    <div class="row">
+<!-- form to upload image -->
+      <div class="col-lg-5 text-center">
+        <h4>Upload image URL(.jpeg)</h4>
+        <form action="/" method="POST">
+            <input type="text-area" id="imgURL" name="imgURL">
+            <button id="btn">Click to generate data</button>
+        </form>
+        <br>
+        <br>
+        <br>
+        <br>
+        {{!-- upload image form --}}
+
+        <p>Feature in testing (image will be stored in folder named: uploads)</p>
+        
+        <div class="row">
+            <form method="post" enctype="multipart/form-data" action="/upload">
+                <div class="col-lg-5"><input type="file" name="thumbnail" width="20%"></div>
+                <div class="col-lg-4"><button type="submit">Upload</button></div>
+            </form>
+        </div>
+      </div>
+<!-- response -->
+      <div class="col-lg-3 text-center">
+        <h4> RESPONSE </h4>
+        <div id="resData">
+            <p>Ethnic: {{ethnic}}</p>
+            <p>Age: {{age}}</p>
+            <p>Glasses: {{glasses}}</p>
+            <p>Gender: {{gender}}</p>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <h4>IMAGE</h4>
+        <img src = "{{imageURL}}" class="img-thumbnail">
+      </div>
+    </div>
+</div>
