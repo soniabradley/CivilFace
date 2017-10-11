@@ -1,8 +1,8 @@
 DROP DATABASE IF EXISTS civilface;
 
-CREATE DATABASE civilface;
+CREATE DATABASE civilface_DB;
 
-USE civilface;
+USE civilface_DB;
 
 CREATE TABLE imageblob(
 sub_id INT PRIMARY KEY NOT NULL,
@@ -21,6 +21,9 @@ gender VARCHAR(20),
 ethinicity VARCHAR(100),
 glasses BOOLEAN);
 
+SELECT * FROM imagetext;
 
+SELECT * FROM imageblob;
 
+SELECT * FROM details;
 
