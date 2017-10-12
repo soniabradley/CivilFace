@@ -2,10 +2,11 @@ var express = require("express");
 var router = express.Router();
 
 // Import the model (.js) to use its database functions.
-
+var civilface = require("../models/civilface.js");
 
 router.get("/", function(req, res){
 // call function in models to pull data from mysql, get the newest entry, put it into infoObject, send to handlebarsjs
+    
     res.render("index", infoObject)
 });
 
