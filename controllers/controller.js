@@ -14,8 +14,9 @@ router.get("/", function(req, res){
 
 // POST method: get user input(the public image URL .jpg, .png) and send to KAIROS API, redirect to mainpage with displayed data
 router.post("/", function(req, res){
-
-    res.redirect("/");
+    civilface.insertData(req.body.imgURL, function(){
+        res.redirect("/");
+    });
 });
 
 
