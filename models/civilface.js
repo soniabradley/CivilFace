@@ -41,7 +41,7 @@ function gender(data){
 
 
 var civilface = {
-    insertData: function(imgURL){
+    insertData: function(imgURL, cb){
         //request API
         request({
             method: 'POST',
@@ -64,7 +64,7 @@ var civilface = {
               result.gender = gender(responseData);
               result.imageURL = imgURL;      
               console.log(result);
-              
+              cb(result);
             //   orm.insertData("#table_name",cols, vals, function(res){
             //     cb(res);
             // })
