@@ -6,10 +6,10 @@ var civilface = require("../models/civilface.js");
 
 router.get("/", function(req, res){
 // call function in models to pull data from mysql, get the newest entry, put it into infoObject, send to handlebarsjs
-    // civilface.getData(function(result){
-    //     res.render("index", result)
-    // })
-    res.send("From controller.js")
+    civilface.insertDetails("http://i.huffpost.com/gen/1463843/images/o-WARREN-BUFFETT-facebook.jpg",function(result){
+        res.render("index", result)
+    })
+    // res.send("From controller.js")
 });
 
 

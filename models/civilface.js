@@ -1,6 +1,7 @@
 // Import the ORM to create functions that will interact with the database.
 var orm = require("../config/orm.js")
 var request = require("request");
+var fs = require("fs");
 
 // function to get maximum ethnic
 function ethnic(data) {
@@ -68,10 +69,6 @@ var civilface = {
                 cb(result);
             });
           });
-    },
-
-    getData: function(){
-
     }
 }
 // Export the database functions for the controller (controller.js).

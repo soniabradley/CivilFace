@@ -23,10 +23,8 @@ app.set("view engine", "handlebars");
 
 // Import routes and give the server access to them.
 var routes = require("./controllers/controller.js");
-var routes_upload = require("./controllers/controller_upload.js");
 
 app.use("/", routes);
-app.use("/upload", routes_upload);
 
 
 app.listen(PORT, function(){

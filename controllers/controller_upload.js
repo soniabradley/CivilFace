@@ -13,6 +13,7 @@ router_upload.get("/", function(req, res){
 // POST method: allow user to upload image(.jpg, .png), encode and send to KAIROS API, redirect to mainpage with displayed data
 router_upload.post("/", function(req, res){
 //use formidable package to handle data upload, then use base64Img to encode image, save into base64.txt, send to API
+    
     res.redirect("/");
 });
 
