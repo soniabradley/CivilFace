@@ -8,6 +8,7 @@ var fs = require('fs');
 var base64Img = require('base64-img');
 var path = require("path");
 var request = require('request');
+var uploadImage = require("./api.js");
 
 // Create an instance of the express app.
 var app = express();
@@ -23,19 +24,6 @@ var PORT = process.env.PORT || 3002;
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-
-// function to encode image to base64
-fs.readdir("./image", function(err, files){
-  var getDir = "./image/" + files[0];
-  if(err) throw err;
-  console.log(getDir);
-  base64Img.base64(getDir, function(err, data){
-      fs.writeFile('base64.txt', data, (err) => {
-          if (err) throw err;
-          console.log('Your base64 img data was appended to file!');
-        });
-  });
-})
 
 //function to identify ethnic
 function ethnic(data) {
@@ -149,6 +137,17 @@ app.post('/upload', function(req, res){
     // console.log(file.name);
     // console.log("file.path: " + file.path);
       fs.rename(file.path, path.join(form.uploadDir, file.name));  // rename file to original name
+
+       // function to encode image to base64
+      var getDir = "./uploads/" + file.name;
+      console.log(getDir);
+      base64Img.base64(getDir, function(err, data){
+          fs.writeFile('base64.txt', data, (err) => {
+              if (err) throw err;
+              console.log('Your base64 img data was appended to file!');
+            });
+      });
+      // end encode to base64
   });
 
   // log any errors that occur
@@ -162,7 +161,10 @@ app.post('/upload', function(req, res){
   });
   // parse the incoming request containing the form data
   form.parse(req);
+  
   res.send("Upload successful");
+  //calling KAIROS API
+  uploadImage();
 });
 
 
