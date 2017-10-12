@@ -2,22 +2,25 @@ var express = require("express");
 var router = express.Router();
 
 // Import the model (.js) to use its database functions.
-// var civ  ilface = require("../models/civilface.js");
+var civilface = require("../models/civilface.js");
 
 router.get("/", function(req, res){
 // call function in models to pull data from mysql, get the newest entry, put it into infoObject, send to handlebarsjs
-    res.send("Hello");
+    // res.send("Hello");
     // res.render("index", infoObject)
+    civilface.insertData("https://pbs.twimg.com/profile_images/889736688624312321/xVAFH9ZH_400x400.jpg", function(){
+        res.send("Data saved to mysql");
+    });
 });
 
 
 
 // POST method: get user input(the public image URL .jpg, .png) and send to KAIROS API, redirect to mainpage with displayed data
-// router.post("/", function(req, res){
-//     civilface.insertData(req.body.imgURL, function(){
-//         res.send("Data saved to mysql");
-//     });
-// });
+router.post("/", function(req, res){
+    civilface.insertData("https://pbs.twimg.com/profile_images/889736688624312321/xVAFH9ZH_400x400.jpg", function(){
+        res.send("Data saved to mysql");
+    });
+});
 
 
 

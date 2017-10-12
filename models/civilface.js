@@ -1,5 +1,5 @@
 // Import the ORM to create functions that will interact with the database.
-var orm = require("../config/orm.js")
+// var orm = require("../config/orm.js")
 var request = require("request");
 
 // function to get maximum ethnic
@@ -56,7 +56,7 @@ var civilface = {
           }, function (error, response, body) {
               var responseData = JSON.parse(body);
               responseData = responseData.images[0].faces[0].attributes;
-              console.log('Response:', responseData);
+            //   console.log('Response:', responseData);
               
               //build data object to use with handlebars
               var result = {};
@@ -67,9 +67,9 @@ var civilface = {
               result.imageURL = imgURL;      
               console.log(result);
 
-              orm.insertData("#table_name",cols, vals, function(res){
-                cb(res);
-            })
+            //   orm.insertData("#table_name",cols, vals, function(res){
+            //     cb(res);
+            // })
           });
 
     },
@@ -78,6 +78,5 @@ var civilface = {
 
     }
 }
-
 // Export the database functions for the controller (controller.js).
 module.exports = civilface;
