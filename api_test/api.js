@@ -1,6 +1,6 @@
 var request = require('request');
 var fs = require("fs");
-module.exports = function uploadImage(){ fs.readFile("./base64.txt", "utf8", function(err, data){
+fs.readFile("./base64.txt", "utf8", function(err, data){
     if(err) throw err;
     request({
       method: 'POST',
@@ -12,10 +12,12 @@ module.exports = function uploadImage(){ fs.readFile("./base64.txt", "utf8", fun
       },
       body: '{  "image": "'+ data +'",  "selector": "ROLL"}'
     }, function (error, response, body) {
-      console.log('Status:', response.statusCode);
-      console.log('Headers:', JSON.stringify(response.headers));
-      console.log('Response:', body);
+        var responseData = JSON.parse(body);
+    //   console.log('Status:', response.statusCode);
+    //   console.log('Headers:', JSON.stringify(response.headers));
+        responseData = responseData.images[0].faces[0].attributes;
+      console.log('Response:', responseData);
     });
 });
-}
+
 
