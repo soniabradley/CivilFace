@@ -41,7 +41,7 @@ function gender(data){
 
 
 var civilface = {
-    insertData: function(imgURL, cb){
+    insertData: function(imgURL){
         //request API
         request({
             method: 'POST',
@@ -55,10 +55,8 @@ var civilface = {
             
           }, function (error, response, body) {
               var responseData = JSON.parse(body);
-              responseData = responseData.images[0].faces[0].attributes;
-            //   console.log('Response:', responseData);
-              
-              //build data object to use with handlebars
+              responseData = responseData.images[0].faces[0].attributes;              
+              //build data object result={} and save to mySQL
               var result = {};
               result.ethnic = ethnic(responseData);
               result.age = responseData.age;
@@ -66,12 +64,11 @@ var civilface = {
               result.gender = gender(responseData);
               result.imageURL = imgURL;      
               console.log(result);
-
+              
             //   orm.insertData("#table_name",cols, vals, function(res){
             //     cb(res);
             // })
           });
-
     },
 
     getData: function(){

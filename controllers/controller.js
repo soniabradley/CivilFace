@@ -8,9 +8,7 @@ router.get("/", function(req, res){
 // call function in models to pull data from mysql, get the newest entry, put it into infoObject, send to handlebarsjs
     // res.send("Hello");
     // res.render("index", infoObject)
-    civilface.insertData("https://pbs.twimg.com/profile_images/889736688624312321/xVAFH9ZH_400x400.jpg", function(){
-        res.send("Data saved to mysql");
-    });
+    civilface.insertData("https://pbs.twimg.com/profile_images/889736688624312321/xVAFH9ZH_400x400.jpg");
 });
 
 
