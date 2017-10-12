@@ -42,7 +42,13 @@ function gender(data){
 
 // orm object contains 2 methods: get data from mysql, insert data to mysql
 var orm = {
-    
+    insertData: function(){
+
+    },
+
+    getData: function(){
+        
+    }
 };
 
 
