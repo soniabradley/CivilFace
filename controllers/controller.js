@@ -6,8 +6,9 @@ var civilface = require("../models/civilface.js");
 
 router.get("/", function(req, res){
 // call function in models to pull data from mysql, get the newest entry, put it into infoObject, send to handlebarsjs
-    
-    res.render("index", result)
+    civilface.getData(function(result){
+        res.render("index", result)
+    })
 });
 
 
