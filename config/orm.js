@@ -1,23 +1,38 @@
-// Import MySQL connection.
+// included connection.js file
 var connection = require("../config/connection.js");
 
+var orm =
+{
+	// Retreiving all columns og specific person
+	selectAll: function(tableInput, valOfCol, cb){
 
-// orm object contains 2 methods: get data from mysql, insert data to mysql
-var orm = {
-    insertData: function(table, cols, vals, cb){
-      var queryString = "";
-      connection.query(queryString, vals, function(err, result) {
-        if (err) {
-          throw err;
-        }
-        cb(result);
-      });
-    },
+		var queryString = "SELECT * FROM ?? WHERE person_id = ?";
+		connection.query(queryString, tableInput, valOfCol, function(err, result)
+		{
+			if(err)
+				console.log(err);
+			else
+				console.log(result);
+				cb(result);
+		});
 
-    getData: function(){
-        
-    }
+	},
+	
+	//inserting the row of a speficific person
+	insertDetails : function(tableInput, imageCol, ageCol, ethiniCol, genderCol, glassCol, cb){
+
+		var queryString = "INSERT INTO " + tableInput + "(image, age, ethinicity, gender, glasses) VALUES(" + "'" + imageCol + "' ," + ageCol +", '" + ethiniCol + "' , '"
+															 + genderCol + "' , '"  + glassCol + " ' )";
+
+		connection.query(queryString, function(err, result){
+
+			if(err)
+				console.log(err);
+			else
+				console.log(result);
+				cb(result);
+		});
+	}
+
 };
-
-
 module.exports = orm;

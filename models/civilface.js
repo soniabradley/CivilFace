@@ -1,5 +1,5 @@
 // Import the ORM to create functions that will interact with the database.
-// var orm = require("../config/orm.js")
+var orm = require("../config/orm.js")
 var request = require("request");
 
 // function to get maximum ethnic
@@ -41,7 +41,7 @@ function gender(data){
 
 
 var civilface = {
-    insertData: function(imgURL, cb){
+    insertDetails: function(imgURL, cb){
         //request API
         request({
             method: 'POST',
@@ -64,10 +64,9 @@ var civilface = {
               result.gender = gender(responseData);
               result.imageURL = imgURL;      
               console.log(result);
-              cb(result);
-            //   orm.insertData("#table_name",cols, vals, function(res){
-            //     cb(res);
-            // })
+              orm.insertDetails("personDetails",result.imageURL, result.age, result.ethnic, result.gender, result.gender, function(res){
+                cb(result);
+            });
           });
     },
 
