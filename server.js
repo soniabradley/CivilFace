@@ -4,11 +4,18 @@ var exphbs = require("express-handlebars");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 
+// BLH adding this line below temporarily to see if styles show up
+// var path = require("path");
+
 // Create an instance of the express app.
 var app = express();
 
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
+
+// BLH adding this line below temporarily to see if styles show up
+app.use(express.static('app/public'));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Override with POST having ?_method=DELETE
