@@ -47,7 +47,7 @@ router.post("/upload", function(req, res){
             fs.writeFile(base64Path, data, function(err){
                 if(err) throw err;
             });
-            fs.writeFile(imgPath, getDir, function(err){
+            fs.writeFile(imgPath, "../../img_upload/" + file.name, function(err){
                 if(err) throw err;
             });
         });
