@@ -55,19 +55,22 @@ var civilface = {
             body: '{  "image": "' + imgURL +'",  "selector": "ROLL"}'    
             
           }, function (error, response, body) {
-              var responseData = JSON.parse(body);
-              responseData = responseData.images[0].faces[0].attributes;              
-              //build data object result={} and save to mySQL
-              var result = {};
-              result.ethnic = ethnic(responseData);
-              result.age = responseData.age;
-              result.glasses = responseData.glasses;
-              result.gender = gender(responseData);
-              result.imageURL = imgURL;      
-              console.log(result);
-              orm.insertDetails("personDetails",result.imageURL, result.age, result.ethnic, result.gender, result.gender, function(res){
-                cb(result);
-              });
+              if (error) throw error;
+              else {
+                var responseData = JSON.parse(body);
+                responseData = responseData.images[0].faces[0].attributes;              
+                //build data object result={} and save to mySQL
+                var result = {};
+                result.ethnic = ethnic(responseData);
+                result.age = responseData.age;
+                result.glasses = responseData.glasses;
+                result.gender = gender(responseData);
+                result.imageURL = imgURL;      
+                console.log(result);
+                orm.insertDetails("personDetails",result.imageURL, result.age, result.ethnic, result.gender, result.gender, function(res){
+                  cb(result);
+                });
+            }
           });
     }
 }

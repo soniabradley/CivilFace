@@ -1,7 +1,9 @@
 var express = require("express");
 var router = express.Router();
-var handleUpload = require("../controllers/handleUpload.js");
-
+var base64Img = require('base64-img');
+var path = require("path");
+var formidable = require('formidable');
+var fs = require("fs");
 // Import the model (.js) to use its database functions.
 var civilface = require("../models/civilface.js");
 
@@ -15,7 +17,6 @@ router.get("/", function(req, res){
 router.post("/", function(req, res){
     civilface.insertDetails(req.body.imgURL, function(result){
         res.render("data", result);
-        // res.redirect("/");
     });
 });
 
@@ -24,6 +25,43 @@ router.post("/", function(req, res){
 // POST method: allow user to upload image(.jpg, .png), encode and send to KAIROS API, redirect to mainpage with displayed data
 router.post("/upload", function(req, res){
 //use formidable package to handle data upload, then use base64Img to encode image, save into base64.txt, send to API
+var form = new formidable.IncomingForm();
+//  allow the user to upload multiple files in a single request
+form.multiples = true;
+form.keepExtensions = true;
+// store all uploads in the /uploads
+form.uploadDir = path.join(__dirname, '../img_upload/uploads');
+
+form.on('file', function(field, file) {
+  // console.log(file.name);
+  // console.log("file.path: " + file.path);
+    fs.rename(file.path, path.join(form.uploadDir, file.name));  // rename file to original name
+
+     // function to encode image to base64
+    var getDir = "../img_upload/uploads/" + file.name;
+    console.log(getDir);
+    base64Img.base64(getDir, function(err, data){
+        fs.writeFile('base64.txt', data, (err) => {
+            if (err) throw err;
+            console.log('Your base64 img data was appended to file!');
+          });
+    });
+    // end encode to base64
+});
+
+// log any errors that occur
+form.on('error', function(err) {
+  console.log('An error has occured: \n' + err);
+});
+
+// once all the files have been uploaded, send a response to the client
+form.on('end', function() {
+  res.end('Upload successful');
+});
+// parse the incoming request containing the form data
+form.parse(req);
+
+res.send("Upload successful");
     
 });
 

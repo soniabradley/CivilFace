@@ -164,7 +164,6 @@ app.post('/upload', function(req, res){
   
   res.send("Upload successful");
   //calling KAIROS API
-  uploadImage();
 });
 
 
