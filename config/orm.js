@@ -16,7 +16,21 @@ var orm =
 				cb(result);
 		});
 
-	},
+  },
+  
+	selectAllMaxId: function(tableInput, cb){
+    
+        var queryString = "SELECT * FROM ?? WHERE person_id = max(person_id)";
+        connection.query(queryString, tableInput, function(err, result)
+        {
+          if(err)
+            console.log(err);
+          else
+            console.log(result);
+            cb(result);
+        });
+    
+      },
 	
 	//inserting the row of a speficific person
 	insertDetails : function(tableInput, imageCol, ageCol, ethiniCol, genderCol, glassCol, cb){
