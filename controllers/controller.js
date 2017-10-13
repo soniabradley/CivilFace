@@ -24,47 +24,45 @@ router.post("/", function(req, res){
 
 // POST method: allow user to upload image(.jpg, .png), encode and send to KAIROS API, redirect to mainpage with displayed data
 router.post("/upload", function(req, res){
-//use formidable package to handle data upload, then use base64Img to encode image, save into base64.txt, send to API
-var form = new formidable.IncomingForm();
-//  allow the user to upload multiple files in a single request
-form.multiples = true;
-form.keepExtensions = true;
-// store all uploads in the /uploads
-form.uploadDir = path.join(__dirname, '../img_upload/uploads');
+    //use formidable package to handle data upload, then use base64Img to encode image, save into base64.txt, send to API
+    var form = new formidable.IncomingForm();
+    //  allow the user to upload multiple files in a single request
+    form.multiples = true;
+    form.keepExtensions = true;
+    // store all uploads in the /uploads
+    form.uploadDir = path.join(__dirname, '../img_upload/uploads');
 
-form.on('file', function(field, file) {
-  // console.log(file.name);
-  // console.log("file.path: " + file.path);
-    fs.rename(file.path, path.join(form.uploadDir, file.name));  // rename file to original name
-
-     // function to encode image to base64
-    var getDir = "../img_upload/uploads/" + file.name;
-    console.log(getDir);
-    base64Img.base64(getDir, function(err, data){
-        fs.writeFile('base64.txt', data, (err) => {
-            if (err) throw err;
-            console.log('Your base64 img data was appended to file!');
-          });
+    form.on('file', function(field, file) {
+    // console.log(file.name);
+    // console.log("file.path: " + file.path);
+        fs.rename(file.path, path.join(form.uploadDir, file.name));  // rename file to original name
+        var getDir = "./uploads" + file.name;
+        console.log(getDir);
     });
-    // end encode to base64
+
+    // log any errors that occur
+    form.on('error', function(err) {
+    console.log('An error has occured: \n' + err);
+    });
+
+    // once all the files have been uploaded, send a response to the client
+    form.on('end', function() {
+    res.end('Upload successful');
+    });
+    // parse the incoming request containing the form data
+    form.parse(req);
+
+    res.render("index",{message: "Upload Sucessfull"});
+
+    //encode to base64, save to base64.txt
+
 });
 
-// log any errors that occur
-form.on('error', function(err) {
-  console.log('An error has occured: \n' + err);
-});
-
-// once all the files have been uploaded, send a response to the client
-form.on('end', function() {
-  res.end('Upload successful');
-});
-// parse the incoming request containing the form data
-form.parse(req);
-
-res.send("Upload successful");
-    
-});
-
+router.post("/getdata", function(req, res){
+    civilface.getDetails_base64(function(){
+        res.render("data", result);
+    })
+})
 
 // Export routes for server.js to use.
 module.exports = router;
