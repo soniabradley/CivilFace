@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+var handleUpload = require("../controllers/handleUpload.js");
 
 // Import the model (.js) to use its database functions.
 var civilface = require("../models/civilface.js");
@@ -23,7 +24,7 @@ router.post("/", function(req, res){
 // POST method: allow user to upload image(.jpg, .png), encode and send to KAIROS API, redirect to mainpage with displayed data
 router.post("/upload", function(req, res){
 //use formidable package to handle data upload, then use base64Img to encode image, save into base64.txt, send to API
-    res.redirect("/");
+    
 });
 
 

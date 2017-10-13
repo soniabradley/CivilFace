@@ -67,7 +67,7 @@ var civilface = {
               console.log(result);
               orm.insertDetails("personDetails",result.imageURL, result.age, result.ethnic, result.gender, result.gender, function(res){
                 cb(result);
-            });
+              });
           });
     }
 }
