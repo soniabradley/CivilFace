@@ -2,6 +2,7 @@
 var orm = require("../config/orm.js")
 var request = require("request");
 var fs = require("fs");
+var path = require("path");
 
 // function to get maximum ethnic
 function ethnic(data) {
@@ -67,7 +68,7 @@ var civilface = {
                 result.gender = gender(responseData);
                 result.imageURL = imgURL;      
                 console.log(result);
-                orm.insertDetails("personDetails",result.imageURL, result.age, result.ethnic, result.gender, result.gender, function(res){
+                orm.insertDetails("personDetails",result.imageURL, result.age, result.ethnic, result.gender, result.glasses, function(res){
                   cb(result);
                 });
             }
@@ -75,7 +76,8 @@ var civilface = {
     },
 
     getDetails_base64 : function(cb){
-      fs.readFile("../base64.txt", "utf8", function(err, data){
+      var getDir = path.join(__dirname,"../controllers/base64.txt");
+      fs.readFile(getDir, "utf8", function(err, data){
         if(err) throw err;
         request({
           method: 'POST',
@@ -87,18 +89,23 @@ var civilface = {
           },
           body: '{  "image": "'+ data +'",  "selector": "ROLL"}'
         }, function (error, response, body) {
-            var responseData = JSON.parse(body);
-            responseData = responseData.images[0].faces[0].attributes;
-            console.log('Response:', responseData);
-            var result = {};
-            result.ethnic = ethnic(responseData);
-            result.age = responseData.age;
-            result.glasses = responseData.glasses;
-            result.gender = gender(responseData);
-            result.imageURL = imgURL;      
-            orm.insertDetails("personDetails",result.imageURL, result.age, result.ethnic, result.gender, result.gender, function(res){
-              cb(result);
-            });
+          //function to get uploaded img path
+            fs.readFile(path.join(__dirname,"../controllers/img.txt"), function(err, data){
+              var imgURL = data;
+              var responseData = JSON.parse(body);
+              responseData = responseData.images[0].faces[0].attributes;
+              console.log('Response:', responseData);
+              var result = {};
+              result.ethnic = ethnic(responseData);
+              result.age = responseData.age;
+              result.glasses = responseData.glasses;
+              result.gender = gender(responseData);
+              result.imageURL = imgURL;      
+              orm.insertDetails("personDetails",result.imageURL, result.age, result.ethnic, result.gender, result.glasses, function(res){
+                cb(result);
+              });
+            })
+            
         });
       });
     }

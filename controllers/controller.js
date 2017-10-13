@@ -6,10 +6,14 @@ var formidable = require('formidable');
 var fs = require("fs");
 // Import the model (.js) to use its database functions.
 var civilface = require("../models/civilface.js");
+// var encode64 = require("./encode_base64");
+
+
 
 router.get("/", function(req, res){
+
 // call function in models to pull data from mysql, get the newest entry, put it into infoObject, send to handlebarsjs
-    res.render("index")
+    res.render("index");
 });
 
 
@@ -27,17 +31,27 @@ router.post("/upload", function(req, res){
     //use formidable package to handle data upload, then use base64Img to encode image, save into base64.txt, send to API
     var form = new formidable.IncomingForm();
     //  allow the user to upload multiple files in a single request
-    form.multiples = true;
+    // form.multiples = true;
     form.keepExtensions = true;
     // store all uploads in the /uploads
-    form.uploadDir = path.join(__dirname, '../img_upload/uploads');
+    form.uploadDir = path.join(__dirname, '../img_upload');
 
     form.on('file', function(field, file) {
     // console.log(file.name);
     // console.log("file.path: " + file.path);
         fs.rename(file.path, path.join(form.uploadDir, file.name));  // rename file to original name
-        var getDir = "./uploads" + file.name;
-        console.log(getDir);
+        var getDir = path.join(form.uploadDir, file.name);
+        base64Img.base64(getDir, function(err, data){
+            var base64Path = path.join(__dirname,"./base64.txt")
+            var imgPath = path.join(__dirname,"./img.txt");
+            fs.writeFile(base64Path, data, function(err){
+                if(err) throw err;
+            });
+            fs.writeFile(imgPath, getDir, function(err){
+                if(err) throw err;
+            });
+        });
+        
     });
 
     // log any errors that occur
@@ -47,7 +61,7 @@ router.post("/upload", function(req, res){
 
     // once all the files have been uploaded, send a response to the client
     form.on('end', function() {
-    res.end('Upload successful');
+        
     });
     // parse the incoming request containing the form data
     form.parse(req);
@@ -55,12 +69,13 @@ router.post("/upload", function(req, res){
     res.render("index",{message: "Upload Sucessfull"});
 
     //encode to base64, save to base64.txt
-
+    
 });
 
 router.post("/getdata", function(req, res){
-    civilface.getDetails_base64(function(){
+    civilface.getDetails_base64(function(result){
         res.render("data", result);
+        // res.send(result);
     })
 })
 
