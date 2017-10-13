@@ -11,4 +11,5 @@ age INT,
 gender VARCHAR(20),
 ethinicity VARCHAR(100),
 glasses BOOLEAN,
+timestamp DATE,  
 PRIMARY KEY (person_id));
