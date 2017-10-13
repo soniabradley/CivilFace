@@ -6,12 +6,10 @@ var formidable = require('formidable');
 var fs = require("fs");
 // Import the model (.js) to use its database functions.
 var civilface = require("../models/civilface.js");
-// var encode64 = require("./encode_base64");
 
 
 
 router.get("/", function(req, res){
-
 // call function in models to pull data from mysql, get the newest entry, put it into infoObject, send to handlebarsjs
     res.render("index");
 });
