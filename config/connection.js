@@ -5,7 +5,7 @@ var connection = mysql.createConnection({
   port: 3306,
   host: "localhost",
   user: "root",
-  password: "H33zy4s!",
+  password: "root",
   database: "civilface_DB"
 });
 
