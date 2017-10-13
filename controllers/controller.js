@@ -6,17 +6,14 @@ var civilface = require("../models/civilface.js");
 
 router.get("/", function(req, res){
 // call function in models to pull data from mysql, get the newest entry, put it into infoObject, send to handlebarsjs
-    civilface.insertDetails("http://i.huffpost.com/gen/1463843/images/o-WARREN-BUFFETT-facebook.jpg",function(result){
-        res.render("index", result)
-    })
-    // res.send("From controller.js")
+    res.render("index")
 });
 
 
 // POST method: get user input(the public image URL .jpg, .png) and send to KAIROS API, redirect to mainpage with displayed data
 router.post("/", function(req, res){
     civilface.insertDetails(req.body.imgURL, function(result){
-        res.render("index", result);
+        res.render("data", result);
         // res.redirect("/");
     });
 });
