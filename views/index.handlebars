@@ -30,7 +30,7 @@
       <div class="col-lg-5 text-center">
         <h4>Upload image URL(.jpeg)</h4>
         <form action="/" method="POST">
-            <input type="text-area" id="imgURL" name="imgURL">
+            <input type="text-area" id="imgURL" name="imgURL" required>
             <button id="btn">Click to generate data</button>
         </form>
         <br>
@@ -42,7 +42,7 @@
         
         <div class="row">
             <form method="post" enctype="multipart/form-data" action="/upload">
-                <div class="col-lg-5"><input type="file" name="thumbnail" width="20%"></div>
+                <div class="col-lg-5"><input type="file" name="thumbnail" width="20%" required></div>
                 <div class="col-lg-4"><button type="submit">Upload</button></div>
             </form>
             <div><h4>{{message}}</h4></div>
