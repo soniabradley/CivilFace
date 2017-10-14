@@ -4,6 +4,22 @@ var request = require("request");
 var fs = require("fs");
 var path = require("path");
 
+
+//function glasses
+function glass(data){
+  var glasses = data.glasses;
+  switch(glasses) {
+    case "Eye":
+      glasses = true;
+      break;
+    case "Glasses":
+      glasses = true;
+      break;
+    default:
+      glasses = false
+  }
+  return glasses;
+}
 // function to get maximum ethnic
 function ethnic(data) {
     var ethnic = Math.max(data.asian, data.hispanic, data.other, data.black, data.white);
@@ -64,7 +80,7 @@ var civilface = {
                 var result = {};
                 result.ethnic = ethnic(responseData);
                 result.age = responseData.age;
-                result.glasses = responseData.glasses;
+                result.glasses = glass(responseData);
                 result.gender = gender(responseData);
                 result.imageURL = imgURL;      
                 console.log(result);
@@ -98,7 +114,7 @@ var civilface = {
               var result = {};
               result.ethnic = ethnic(responseData);
               result.age = responseData.age;
-              result.glasses = responseData.glasses;
+              result.glasses = glass(responseData);
               result.gender = gender(responseData);
               result.imageURL = imgURL;      
               orm.insertDetails("personDetails",result.imageURL, result.age, result.ethnic, result.gender, result.glasses, function(res){
