@@ -1,1 +1,1 @@
-../../img_upload/reo.png
+../../img_upload/test.png

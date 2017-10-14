@@ -33,7 +33,11 @@ router.post("/upload", function(req, res){
     form.keepExtensions = true;
     // store all uploads in the /uploads
     form.uploadDir = path.join(__dirname, '../img_upload');
-
+    form.on('progress', function(bytesReceived, bytesExpected) {
+        console.log(bytesReceived);
+        console.log(bytesExpected);
+        
+    });
     form.on('file', function(field, file) {
     // console.log(file.name);
     // console.log("file.path: " + file.path);
