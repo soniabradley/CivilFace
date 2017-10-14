@@ -1,1 +1,1 @@
-../../img_upload/test.png
+g.png

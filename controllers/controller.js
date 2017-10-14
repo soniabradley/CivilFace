@@ -32,7 +32,7 @@ router.post("/upload", function(req, res){
     // form.multiples = true;
     form.keepExtensions = true;
     // store all uploads in the /uploads
-    form.uploadDir = path.join(__dirname, '../img_upload');
+    form.uploadDir = path.join(__dirname, '../public/imgupload');
     form.on('progress', function(bytesReceived, bytesExpected) {
         console.log(bytesReceived);
         console.log(bytesExpected);
@@ -49,7 +49,7 @@ router.post("/upload", function(req, res){
             fs.writeFile(base64Path, data, function(err){
                 if(err) throw err;
             });
-            fs.writeFile(imgPath, "../../img_upload/" + file.name, function(err){
+            fs.writeFile(imgPath, file.name, function(err){
                 if(err) throw err;
             });
         });
