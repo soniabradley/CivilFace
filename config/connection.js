@@ -1,14 +1,17 @@
 // Set up MySQL connection.
 var mysql = require("mysql");
+var connection;
 
-var connection = mysql.createConnection({
-  port: 3306,
+if (process.env.JAWSDB_URL) {
+  connection = mysql.createConnection(process.env.JAWSDB_URL);
+   } else {
+     connection = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "MyNewPass",
   database: "civilface_DB"
 });
-
+};
 // Make connection.
 connection.connect(function(err) {
   if (err) {
