@@ -121,7 +121,6 @@ var civilface = {
                 cb(result);
               });
             })
-            
         });
       });
     }
