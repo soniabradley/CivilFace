@@ -38,11 +38,11 @@
         <br>
         <br>
 
-        <p>Feature in testing (image will be stored in folder named: uploads)</p>
+        <p>Upload your image</p>
         
         <div class="row">
             <form method="post" enctype="multipart/form-data" action="/upload">
-                <div class="col-lg-5"><input type="file" name="thumbnail" width="20%" required></div>
+                <div class="col-lg-5"><input type="file" name="thumbnail" width="20%" required accept=".jpg,.png"></div>
                 <div class="col-lg-4"><button type="submit">Upload</button></div>
             </form>
             <div><h4>{{message}}</h4></div>

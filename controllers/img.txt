@@ -1,1 +1,1 @@
-g.png
+test.png
