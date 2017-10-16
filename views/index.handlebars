@@ -41,14 +41,19 @@
         <p>Upload your image</p>
         
         <div class="row">
+          <div class="col-lg-6">
             <form method="post" enctype="multipart/form-data" action="/upload">
                 <div class="col-lg-5"><input type="file" name="thumbnail" width="20%" required accept=".jpg,.png"></div>
                 <div class="col-lg-4"><button type="submit">Upload</button></div>
             </form>
-            <div><h4>{{message}}</h4></div>
-             <form method="post" enctype="multipart/form-data" action="/getdata">
+          </div>
+            
+            <div class="col-lg-4"><h4>{{message}}</h4></div>
+            <div class="col-lg-6">
+              <form method="post" enctype="multipart/form-data" action="/getdata">
                 <div class="col-lg-4"><button type="submit">Click to generate data</button></div>
-            </form>
+              </form>
+            </div> 
         </div>
       </div>
     </div>
