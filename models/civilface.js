@@ -10,13 +10,13 @@ function glass(data){
   var glasses = data.glasses;
   switch(glasses) {
     case "Eye":
-      glasses = true;
+      glasses = 1;
       break;
     case "Glasses":
-      glasses = true;
+      glasses = 1;
       break;
     default:
-      glasses = false
+      glasses = 0
   }
   return glasses;
 }
