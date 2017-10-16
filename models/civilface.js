@@ -106,8 +106,8 @@ var civilface = {
           body: '{  "image": "'+ data +'",  "selector": "ROLL"}'
         }, function (error, response, body) {
           //function to get uploaded img path
-            fs.readFile(path.join(__dirname,"../controllers/img.txt"), function(err, data){
-              var imgURL = data;
+            fs.readFile(path.join(__dirname,"../controllers/img.txt"), function(err, data2){
+              var imgURL = data2;
               var responseData = JSON.parse(body);
               responseData = responseData.images[0].faces[0].attributes;
               console.log('Response:', responseData);
