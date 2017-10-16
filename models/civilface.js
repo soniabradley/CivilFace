@@ -10,13 +10,13 @@ function glass(data){
   var glasses = data.glasses;
   switch(glasses) {
     case "Eye":
-      glasses = true;
+      glasses = 1;
       break;
     case "Glasses":
-      glasses = true;
+      glasses = 1;
       break;
     default:
-      glasses = false
+      glasses = 0
   }
   return glasses;
 }
@@ -95,33 +95,35 @@ var civilface = {
       var getDir = path.join(__dirname,"../controllers/base64.txt");
       fs.readFile(getDir, "utf8", function(err, data){
         if(err) throw err;
-        request({
-          method: 'POST',
-          url: 'https://api.kairos.com/detect?image=',
-          headers: {
-            'Content-Type': 'application/json',
-            'app_id': '7167ee1b',
-            'app_key': '35e70a4c3036a339cc3954f24255a4e5'
-          },
-          body: '{  "image": "'+ data +'",  "selector": "ROLL"}'
-        }, function (error, response, body) {
-          //function to get uploaded img path
-            fs.readFile(path.join(__dirname,"../controllers/img.txt"), function(err, data2){
-              var imgURL = data2;
-              var responseData = JSON.parse(body);
-              responseData = responseData.images[0].faces[0].attributes;
-              console.log('Response:', responseData);
-              var result = {};
-              result.ethnic = ethnic(responseData);
-              result.age = responseData.age;
-              result.glasses = glass(responseData);
-              result.gender = gender(responseData);
-              result.imageURL = imgURL;      
-              orm.insertDetails("personDetails",result.imageURL, result.age, result.ethnic, result.gender, result.glasses, function(res){
-                cb(result);
+        else{
+          request({
+            method: 'POST',
+            url: 'https://api.kairos.com/detect?image=',
+            headers: {
+              'Content-Type': 'application/json',
+              'app_id': '7167ee1b',
+              'app_key': '35e70a4c3036a339cc3954f24255a4e5'
+            },
+            body: '{  "image": "'+ data +'",  "selector": "ROLL"}'
+          }, function (error, response, body) {
+            //function to get uploaded img path
+              fs.readFile(path.join(__dirname,"../controllers/img.txt"), function(err, data2){
+                var imgURL = data2;
+                var responseData = JSON.parse(body);
+                responseData = responseData.images[0].faces[0].attributes;
+                console.log('Response:', responseData);
+                var result = {};
+                result.ethnic = ethnic(responseData);
+                result.age = responseData.age;
+                result.glasses = glass(responseData);
+                result.gender = gender(responseData);
+                result.imageURL = imgURL;      
+                orm.insertDetails("personDetails",result.imageURL, result.age, result.ethnic, result.gender, result.glasses, function(res){
+                  cb(result);
+                });
               });
-            })
-        });
+          });
+        }
       });
     }
 }

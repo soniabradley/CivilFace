@@ -8,7 +8,7 @@ if (process.env.JAWSDB_URL) {
      connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "root",
+  password: "sangam0503",
   database: "civilface_DB"
 });
 };
