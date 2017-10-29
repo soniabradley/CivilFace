@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 me.jpg
+=======
+BillGates.png
+>>>>>>> cec13dc9d5c79e2185e4231b54933c6c6044004c
